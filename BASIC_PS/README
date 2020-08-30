@@ -1,0 +1,24 @@
+THIS README IS FOR BASIC_PROBLEM STATEMENT
+
+1)Place the hitter_pole package in your workspace 
+
+2)use the link 
+
+https://drive.google.com/file/d/1MJX6dVHRhB5e_ntp4y-QF628EUj7b8bk/view?usp=sharing
+
+to download updated_model_1.h5.tar.gz and extract or place it inside the hitter_pole package
+
+and in the code finalbasic.py change the path of the above .h5 file after placing the package in your workspace and do add the complete path 
+
+for example :-/home/panyam/mybot_ws/src/hitter_pole/updated_model_1.h5
+
+
+3)
+	1.roslaunch hitter_pole hitter_pole.launch
+	2.rosrun hitter_pole finalbasic.py
+	3.rosrun image_view image_view image:=/mybot/mybot/camera1/image_raw
+
+pls follow the above sequence
+
+4)pls make sure to change the path of meshes present in the meshes folder in the sdf file
+after placing the package in your workspace

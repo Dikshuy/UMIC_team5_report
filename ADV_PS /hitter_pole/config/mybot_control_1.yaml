@@ -1,0 +1,35 @@
+catapult:
+  # Publish all joint states -----------------------------------
+  joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 50  
+
+
+
+  /gazebo_ros_control: 
+    pid_gains:
+        joint_name: 
+            p: 100.0
+            i: 1.0
+            d: 0.1
+
+
+  base_rotation_controller:
+    type: velocity_controllers/JointVelocityController
+    joint: joint2
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+
+
+
+
+
+  throwing_controller:
+    type: velocity_controllers/JointVelocityController
+    joint: throwing
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+
+
+
+
+
+

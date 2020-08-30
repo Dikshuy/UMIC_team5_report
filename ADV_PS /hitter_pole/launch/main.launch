@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+  <param name="/use_sim_time" value="true" />
+
+  <!-- start world -->
+  <node name="gazebo" pkg="gazebo_ros" type="gazebo" 
+   args="$(find hitter_pole)/worlds/finale6.sdf" respawn="false" output="screen" />
+
+  <!-- start gui -->
+  <!--node name="gazebo_gui" pkg="gazebo" type="gui" respawn="false" output="screen"/-->
+
+
+  
+  <!-- BEGIN ROBOT 1-->
+  <group ns="/">
+    <param name="tf_prefix" value="mybot_tf" />
+    <include file="$(find hitter_pole)/launch/hitter_pole (1).launch" >
+      <arg name="init_pose" value="-x 0 -y 0 -z 0" />
+      <arg name="robot_name"  value="mybot" />
+    </include>
+  </group>
+
+  <!-- BEGIN ROBOT 2-->
+  <group ns="/">
+    <param name="tf_prefix" value="catapult_tf" />
+    <include file="$(find hitter_pole)/launch/catapult.launch" >
+      <arg name="init_pose" value="-x -3.5 -y 0 -z 0" />
+      <arg name="robot_name"  value="catapult" />
+    </include>
+  </group>
+
+</launch>

@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.5.1-0-g916b5db  Build Version: 1.5.7152.31018
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot
+  name="catapult_2">
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="0 0 0.037532"
+        rpy="0 0 0" />
+      <mass
+        value="12.095" />
+      <inertia
+        ixx="0.2406"
+        ixy="-9.1075E-34"
+        ixz="-6.7067E-34"
+        iyy="0.2406"
+        iyz="-6.0663E-18"
+        izz="0.4628" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://catapult_2/meshes/base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://catapult_2/meshes/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="link2">
+    <inertial>
+      <origin
+        xyz="0 -1.1102E-16 0.079372"
+        rpy="0 0 0" />
+      <mass
+        value="8.6111" />
+      <inertia
+        ixx="0.10153"
+        ixy="0.0033108"
+        ixz="2.6986E-19"
+        iyy="0.085194"
+        iyz="-1.0662E-17"
+        izz="0.17002" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://catapult_2/meshes/link2.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://catapult_2/meshes/link2.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint2"
+    type="revolute">
+    <origin
+      xyz="0 0 0"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="link2" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="0"
+      upper="0.3"
+      effort="100"
+      velocity="10" />
+  </joint>
+  <link
+    name="arm_bowl">
+    <inertial>
+      <origin
+        xyz="-0.87531 -0.17061 0.2793"
+        rpy="0 0 0" />
+      <mass
+        value="39.039" />
+      <inertia
+        ixx="1.5373"
+        ixy="-1.822"
+        ixz="1.4294"
+        iyy="10.53"
+        iyz="0.27861"
+        izz="11.264" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://catapult_2/meshes/arm_bowl.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://catapult_2/meshes/arm_bowl.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="throwing"
+    type="revolute">
+    <origin
+      xyz="0 0 0"
+      rpy="0 0 0" />
+    <parent
+      link="link2" />
+    <child
+      link="arm_bowl" />
+    <axis
+      xyz="0.19132 -0.98153 0" />
+    <limit
+      lower="0"
+      upper="0.3"
+      effort="100"
+      velocity="10" />
+  </joint>
+
+
+  <transmission name="base_joint" type="SimpleTransmission">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="base_motor">
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+    <joint name="joint2">
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+      <!-- <hardwareInterface>PositionJointInterface</hardwareInterface> -->
+    </joint>
+  </transmission>
+
+
+
+  <transmission name="throwing_joint" type="SimpleTransmission">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="throwing_motor">
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+    <joint name="throwing">
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+    </joint>
+  </transmission>
+
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotNamespace>/catapult</robotNamespace>
+      <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+      <legacyModeNS>true</legacyModeNS>
+    </plugin>
+  </gazebo>
+</robot>

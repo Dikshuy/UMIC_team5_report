@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+
+  <rosparam file="$(find hitter_pole)/config/mybot_control_1.yaml" command="load" />
+
+
+  <!--arg name="world" default="empty"/--> 
+  <arg name="paused" default="false"/>
+  <arg name="use_sim_time" default="true"/>
+  <arg name="gui" default="true"/>
+  <arg name="headless" default="false"/>
+  <arg name="debug" default="false"/>
+  <arg name="robot_name"/>
+  <arg name="init_pose"/>
+
+  <!--include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find hitter_pole)/worlds/mybot.world"/>
+    <arg name="paused" value="$(arg paused)"/>
+    <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+    <arg name="gui" value="$(arg gui)"/>
+    <arg name="headless" value="$(arg headless)"/>
+    <arg name="debug" value="$(arg debug)"/>
+  </include-->
+
+  
+  <param name="catapult/robot_description" command="$(find xacro)/xacro.py '$(find hitter_pole)/urdf/catapult_2.urdf'"/>
+
+  <param name="robot_description_sdf" command="$(find xacro)/xacro.py '$(find hitter_pole)/urdf/catapult_2.sdf'"/>
+
+  <node name="mybot_spawn" pkg="gazebo_ros"  type="spawn_model"  output="screen"
+   args="$(arg init_pose) -sdf -param robot_description_sdf -model $(arg robot_name)" />
+
+  <!-- load the controllers -->
+  <node name="controller_spawner"
+    pkg="controller_manager"
+    type="spawner" respawn="false"
+    output="screen"
+    args="--namespace=/catapult joint_state_controller
+       base_rotation_controller throwing_controller --timeout 100"
+  />
+
+  <!-- convert joint states to TF transforms for rviz, etc -->
+  <node name="robot_state_publisher" ns="$(arg robot_name)" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
+
+    <param name="robot_description"  command="$(find xacro)/xacro.py  '$(find hitter_pole)/urdf/catapult_2.urdf'"/>
+    <!--remap from="/joint_states" to="/catapult/joint_states" /-->
+  </node>
+
+
+  <node pkg="joint_state_publisher"
+      type="joint_state_publisher"
+      name="joint_state_publisher" ns="/$(arg robot_name)">
+      <param name="rate" value="50" />
+  </node>
+
+</launch>

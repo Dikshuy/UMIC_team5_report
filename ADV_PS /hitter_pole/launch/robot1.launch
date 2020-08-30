@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+  <!-- No namespace here as we will share this description. 
+       Access with slash at the beginning -->
+
+  
+  <param name="mybot/robot_description" command="$(find xacro)/xacro.py '$(find hitter_pole)/urdf/side_pole.urdf'"/>
+
+  <param name="robot_description_sdf" command="$(find xacro)/xacro.py '$(find hitter_pole)/urdf/side_pole.sdf'"/>
+
+  
+  <!-- BEGIN ROBOT 1-->
+  <group ns="mybot">
+    <param name="tf_prefix" value="mybot_tf" />
+    <include file="$(find hitter_pole)/launch/hitter_pole.launch" >
+      <arg name="init_pose" value="-x 1 -y 0 -z 0" />
+      <arg name="robot_name"  value="mybot" />
+    </include>
+  </group>
+
+</launch>

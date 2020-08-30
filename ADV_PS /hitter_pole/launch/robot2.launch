@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<launch>
+  <!-- No namespace here as we will share this description. 
+       Access with slash at the beginning -->
+
+  
+  <param name="catapult/robot_description" command="$(find xacro)/xacro.py '$(find catapult_2)/urdf/catapult_2.urdf'"/>
+
+  <param name="robot_description_sdf" command="$(find xacro)/xacro.py '$(find catapult_2)/urdf/catapult_2.sdf'"/>
+
+
+
+
+  <!-- BEGIN ROBOT 2-->
+  <group ns="catapult">
+    <param name="tf_prefix" value="catapult_tf" />
+    <include file="$(find catapult_2)/launch/catapult.launch" >
+      <arg name="init_pose" value="-x -1 -y 0 -z 0" />
+      <arg name="robot_name"  value="catapult" />
+    </include>
+  </group>
+</launch>
